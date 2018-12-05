@@ -1,2 +1,2 @@
 # FlapMan
-Projeto de Computação Gráfica
+Projeto de Computação Gráfica.
