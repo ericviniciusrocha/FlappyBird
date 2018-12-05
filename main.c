@@ -1,23 +1,28 @@
-
 #include <stdlib.h>
+#ifdef _WIN32
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+#elseif __linux__
+#include <glut.h>
+#include <glu.h>
+#include <gl.h>
+#endif
 //#include <stdio.h>
 //#include <GL/freeglut.h>
 
-//DeclaraÁ„o de Vari·veis Globais
-int projecao=0; //Vari·vel LÛgica para Definir o Tipo de ProjeÁ„o (Perspectiva ou Ortogonal)
-int posx=0, posy=10, posz=20; //Vari·veis que definem a posiÁ„o da c‚mera
-int oy=0,ox=0,oz=0;         //Vari·veis que definem para onde a c‚mera olha
-int lx=0, ly=1,  lz=0;         //Vari·veis que definem qual eixo estar· na vertical do monitor.
+//Declara√ß√£o de Vari√°veis Globais
+int projecao=0; //Vari√°vel L√≥gica para Definir o Tipo de Proje√ß√£o (Perspectiva ou Ortogonal)
+int posx=0, posy=10, posz=20; //Vari√°veis que definem a posi√ß√£o da c√¢mera
+int oy=0,ox=0,oz=0;         //Vari√°veis que definem para onde a c√¢mera olha
+int lx=0, ly=1,  lz=0;         //Vari√°veis que definem qual eixo estar√° na vertical do monitor.
 
-//ProtÛtipos das FunÁıes
+//Prot√≥tipos das Fun√ß√µes
 void Inicializa();
 void Display();
-void Mouse(int botao, int estado, int x, int y);
+//void Mouse(int botao, int estado, int x, int y);
 void keyboard (unsigned char key, int x, int y);
-void TeclasEspeciais (int key, int x, int y);
+//void TeclasEspeciais (int key, int x, int y);
 
 void Display()
 {
@@ -31,43 +36,43 @@ void Display()
    glEnable(GL_SMOOTH);
    glEnable(GL_BLEND);
    
-   // Inicializa par‚metros de rendering
-    // Define a cor de fundo da janela de visualizaÁ„o como preta
+   // Inicializa par√¢metros de rendering
+    // Define a cor de fundo da janela de visualiza√ß√£o como preta
    glClearColor(1.0, 0.0, 0.0, 0.0); 
    
    
-   glMatrixMode(GL_PROJECTION);/*glMatrixMode()- define qual matriz ser· alterada. SEMPRE defina o tipo de apresentaÁ„o 
+   glMatrixMode(GL_PROJECTION);/*glMatrixMode()- define qual matriz ser√° alterada. SEMPRE defina o tipo de apresenta√ß√£o 
                               (Ortogonal ou Perspectiva) na matriz PROJECTION.*/
-   glLoadIdentity();//"Limpa" ou "transforma" a matriz em identidade, reduzindo possÌveis erros.
+   glLoadIdentity();//"Limpa" ou "transforma" a matriz em identidade, reduzindo poss√≠veis erros.
 
    if (projecao==1)
-      glOrtho(-150, 150, -150, 150, -150, 150); //Define a projeÁ„o como ortogonal
+      glOrtho(-150, 150, -150, 150, -150, 150); //Define a proje√ß√£o como ortogonal
    else
-      gluPerspective(45,1,1,150); //Define a projeÁ„o como perspectiva
+      gluPerspective(45,1,1,150); //Define a proje√ß√£o como perspectiva
    
-   glMatrixMode(GL_MODELVIEW);/*glMatrixMode()- define qual matriz ser· alterada. SEMPRE defina a c‚mera 
-                              (Ortogonal ou Perspectiva) na matriz MODELVIEW (onde o desenho ocorrer·).*/
-   glLoadIdentity(); ////"Limpa" ou "transforma" a matriz em identidade, reduzindo possÌveis erros.
+   glMatrixMode(GL_MODELVIEW);/*glMatrixMode()- define qual matriz ser√° alterada. SEMPRE defina a c√¢mera 
+                              (Ortogonal ou Perspectiva) na matriz MODELVIEW (onde o desenho ocorrer√°).*/
+   glLoadIdentity(); ////"Limpa" ou "transforma" a matriz em identidade, reduzindo poss√≠veis erros.
 
-   gluLookAt(posx,posy,posz,ox,oy,oz,lx,ly,lz); //Define a pos da c‚mera, para onde olha e qual eixo est· na vertical.
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); /* "limpa" um buffer particular ou combinaÁıes de buffers, 
-                                                         onde buffer È uma ·rea de armazenamento para informaÁıes da imagem. 
-                                                        Nesse caso, est· "limpando os buffers para suportarem animaÁıes */
-   //Chamada para FunÁ„o  ou funÁıes para desenhar o objeto/cena...
+   gluLookAt(posx,posy,posz,ox,oy,oz,lx,ly,lz); //Define a pos da c√¢mera, para onde olha e qual eixo est√° na vertical.
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); /* "limpa" um buffer particular ou combina√ß√µes de buffers, 
+                                                         onde buffer √© uma √°rea de armazenamento para informa√ß√µes da imagem. 
+                                                        Nesse caso, est√° "limpando os buffers para suportarem anima√ß√µes */
+   //Chamada para Fun√ß√£o  ou fun√ß√µes para desenhar o objeto/cena...
    //----------------------------------------------------------------
-   //glPushMatrix(); //Salva o estado atual da cena. O que for desenhado apÛs o Push n„o influenciar· o j· representado
-      glColor3ub(100, 255, 40); //DEFINE cor (R, G, B e percentual de transparÍncia para o objeto)
+   //glPushMatrix(); //Salva o estado atual da cena. O que for desenhado ap√≥s o Push n√£o influenciar√° o j√° representado
+      glColor3ub(100, 255, 40); //DEFINE cor (R, G, B e percentual de transpar√™ncia para o objeto)
       glutWireTeapot(5.0);
-  // glPopMatrix();  //Retorna ao estado anterior da cena. O que for desenhado apÛs o Push n„o influenciou o j· representado
+  // glPopMatrix();  //Retorna ao estado anterior da cena. O que for desenhado ap√≥s o Push n√£o influenciou o j√° representado
    //----------------------------------------------------------------   
    
-   glutSwapBuffers(); //Executa a Cena. SwapBuffers d· suporte para mais de um buffer, permitindo execuÁ„o de animaÁıes sem cintilaÁıes. 
+   glutSwapBuffers(); //Executa a Cena. SwapBuffers d√° suporte para mais de um buffer, permitindo execu√ß√£o de anima√ß√µes sem cintila√ß√µes. 
 }
 
-void Mouse(int botao, int estado, int x, int y)
-{  //bot„o - recebe o cÛdigo do bot„o pressionado
-   //estado - recebe se est· pressionado ou n„o
-   //x, y - recebem respectivamente as posiÁıes do mouse na tela
+/*void Mouse(int botao, int estado, int x, int y)
+{  //bot√£o - recebe o c√≥digo do bot√£o pressionado
+   //estado - recebe se est√° pressionado ou n√£o
+   //x, y - recebem respectivamente as posi√ß√µes do mouse na tela
    switch (botao)
    {
       case GLUT_LEFT_BUTTON:
@@ -92,11 +97,11 @@ void Mouse(int botao, int estado, int x, int y)
       }
       break;
    }
-}
+}*/
 
 void keyboard (unsigned char key, int x, int y)
-{//Key - recebe o cÛdigo ASCII da tecla
- //x, y - recebem as posiÁıes do mouse na tela (permite tratar os dois dispositivos)
+{//Key - recebe o c√≥digo ASCII da tecla
+ //x, y - recebem as posi√ß√µes do mouse na tela (permite tratar os dois dispositivos)
       if (key=='d')
       {
          lz=0; ly=1; ox+=5;
@@ -120,9 +125,9 @@ void keyboard (unsigned char key, int x, int y)
       glutPostRedisplay();
 }
 
-void TeclasEspeciais (int key, int x, int y)
-{//Key - recebe o cÛdigo ASCII da tecla
- //x, y - recebem respectivamente as posiÁıes mouse na tela (permite tratar os dois dispositivos)
+/*void TeclasEspeciais (int key, int x, int y)
+{//Key - recebe o c√≥digo ASCII da tecla
+ //x, y - recebem respectivamente as posi√ß√µes mouse na tela (permite tratar os dois dispositivos)
       if (key==GLUT_KEY_RIGHT)
       {
          posx+=5; ox+=5;
@@ -148,7 +153,7 @@ void TeclasEspeciais (int key, int x, int y)
          posz+=5; oz+=5;
       }
       glutPostRedisplay();
-}
+}*/
 
 
 int main(int argc,char **argv)
@@ -156,17 +161,17 @@ int main(int argc,char **argv)
    glutInit(&argc, argv); // Initializes glut
     
    
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); /*Define as caracterÌsticas do espaÁo vetorial. 
-                                                                           //  Nesse caso, permite animaÁıes (sem cintilaÁıes), cores compostas por Verm. Verde e Azul,
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); /*Define as caracter√≠sticas do espa√ßo vetorial. 
+                                                                           //  Nesse caso, permite anima√ß√µes (sem cintila√ß√µes), cores compostas por Verm. Verde e Azul,
                                                                            //  Buffer que permite trablhar com profundidade e elimina faces escondidas.*/           
   
    glutInitWindowSize(300, 300);
    glutInitWindowPosition(10, 10);
-   glutCreateWindow("Estrutura para uma AplicaÁ„o 3D");
+   glutCreateWindow("FlappyBirdo");
    glutDisplayFunc(Display);
-   glutMouseFunc(Mouse);
+   //glutMouseFunc(Mouse);
    glutKeyboardFunc(keyboard);
-   glutSpecialFunc(TeclasEspeciais);
+   //glutSpecialFunc(TeclasEspeciais);
    glutMainLoop();
-   return 0; 
+   return 0;
 }
