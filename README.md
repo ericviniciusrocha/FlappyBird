@@ -1,5 +1,5 @@
 # FlapMan
-Projeto de Computação Gráfica
+Projeto de Computação Gráfica.
 
 Considerar que o passaro esta caindo reto
 Usar equações{
